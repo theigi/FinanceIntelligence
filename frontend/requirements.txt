@@ -1,4 +1,0 @@
-react-markdown 
-remark-gfm
-jspdf 
-html2canvas
