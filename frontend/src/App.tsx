@@ -107,7 +107,7 @@ function App() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/analyze', { method: 'POST', body: formData });
+      const response = await fetch(import.meta.env.VITE_API_URL || 'http://localhost:8000/analyze', { method: 'POST', body: formData });
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       if (!reader) return;
