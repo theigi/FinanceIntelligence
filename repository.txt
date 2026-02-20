@@ -1,0 +1,16 @@
+AI-AGENT-FINANCE/
+├── backend/
+│   ├── data/
+│   │   └── financials.csv  # The sample data provided earlier
+│   ├── .env               # Your API Keys
+│   ├── graph_agent.py     # The LangGraph logic
+│   ├── main.py            # FastAPI server
+│   └── requirements.txt   # Python dependencies
+└── frontend/
+    ├── src/
+    │   ├── App.tsx        # The upgraded React UI code
+    │   └── main.tsx
+    ├── index.html
+    ├── package.json       # Must contain the "dev" script
+    ├── vite.config.ts     # Vite configuration
+    └── tsconfig.json

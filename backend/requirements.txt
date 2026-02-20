@@ -1,0 +1,11 @@
+langchain
+langchain-community
+langchain-core
+langchain-openai
+langchain-text-splitters
+langgraph
+python-dotenv
+tavily-python
+openai
+SQLAlchemy
+python-multipart
