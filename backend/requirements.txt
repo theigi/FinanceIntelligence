@@ -9,3 +9,5 @@ tavily-python
 openai
 SQLAlchemy
 python-multipart
+uvicorn
+gunicorn
