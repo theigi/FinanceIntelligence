@@ -106,8 +106,12 @@ function App() {
     formData.append('max_revisions', '2');
     formData.append('file', file);
 
+    // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL || 'http://localhost:8000/analyze', { method: 'POST', body: formData });
+      // const response = await fetch(import.meta.env.VITE_API_URL || 'http://localhost:8000/analyze', { method: 'POST', body: formData });
+      const response =await fetch(`${API_BASE_URL}/analyze`, { method: 'POST', body: formData });
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       if (!reader) return;
