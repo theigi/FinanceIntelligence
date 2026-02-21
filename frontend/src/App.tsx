@@ -96,42 +96,68 @@ function App() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) return alert("Please upload a CSV");
-    setLoading(true); setLogs([]); setFinalReport('');
+      e.preventDefault();
+      if (!file) return alert("Please upload a CSV");
+      setLoading(true); setLogs([]); setFinalReport('');
 
-    const formData = new FormData();
-    formData.append('task', task);
-    formData.append('competitors', competitors);
-    formData.append('max_revisions', '2');
-    formData.append('file', file);
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-    // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const formData = new FormData();
+      formData.append('task', task);
+      formData.append('competitors', competitors);
+      formData.append('max_revisions', '2');
+      formData.append('file', file);
 
-    try {
-      // const response = await fetch(import.meta.env.VITE_API_URL || 'http://localhost:8000/analyze', { method: 'POST', body: formData });
-      const response =await fetch(`${API_BASE_URL}/analyze`, { method: 'POST', body: formData });
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      if (!reader) return;
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
-        lines.forEach(line => {
-          if (line.startsWith('data: ')) {
-            const data = JSON.parse(line.replace('data: ', ''));
-            const nodeName = Object.keys(data)[0];
-            const nodeContent = data[nodeName];
-            setLogs(prev => [...prev, nodeName.replace(/_/g, ' ')]);
-            if (nodeContent.report) setFinalReport(nodeContent.report);
-          }
+      try {
+        const response = await fetch(`${API_BASE_URL}/analyze`, { 
+          method: 'POST', 
+          body: formData 
         });
+
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+        if (!reader) return;
+
+        let buffer = ""; // New: Buffer to handle split chunks
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          
+          // Append new chunk to the existing buffer
+          buffer += decoder.decode(value, { stream: true });
+          
+          // Split by the SSE standard double-newline
+          const parts = buffer.split('\n\n');
+          
+          // Keep the last partial part in the buffer
+          buffer = parts.pop() || "";
+
+          for (const part of parts) {
+            const line = part.trim();
+            if (line.startsWith('data: ')) {
+              try {
+                const jsonStr = line.replace('data: ', '');
+                const data = JSON.parse(jsonStr);
+                const nodeName = Object.keys(data)[0];
+                const nodeContent = data[nodeName];
+                
+                setLogs(prev => [...prev, nodeName.replace(/_/g, ' ')]);
+                if (nodeContent.report) setFinalReport(nodeContent.report);
+              } catch (err) {
+                console.error("JSON split error - waiting for more data:", err);
+                // If JSON is incomplete, add it back to buffer to try again later
+                buffer = part + '\n\n' + buffer;
+              }
+            }
+          }
+        }
+      } catch (err) { 
+        console.error("Fetch error:", err); 
+      } finally { 
+        setLoading(false); 
       }
-    } catch (err) { console.error(err); } finally { setLoading(false); }
-  };
+    };
 
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: '"Inter", system-ui, sans-serif', color: '#1e293b' }}>
