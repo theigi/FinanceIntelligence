@@ -1,47 +1,43 @@
-# Financial Intelligence Agent
+# FinanceIntelligence: Agentic Financial Analysis Ecosystem
 
-## Project Goal
-Develop an agentic financial analysis ecosystem that utilizes LangGraph to coordinate multi-step workflows. The system gathers internal company data, performs real-time competitor research, and critiques its own findings to produce high-fidelity investment-grade reports.
+**FinanceIntelligence** is a full-stack AI application that leverages **LangGraph** to coordinate multi-step, stateful financial research workflows. The system autonomously analyzes internal CSV data, performs real-time web research on competitors, and self-critiques its findings to produce investment-grade reports.
 
-## Project Structure
-The project is decoupled into a stateful AI backend and a modern React dashboard.
+### 🌐 [Live Dashboard](https://ai-agent-finance-frontend.onrender.com) | 
+🛠️ [API Documentation](https://ai-agent-finance-29gh.onrender.com/docs)
 
-Plaintext
-AI-AGENT-FINANCE/
-├── backend/
-│   ├── data/              # Storage for financials.csv
-│   ├── .env               # API Secrets (OpenAI, Tavily)
-│   ├── graph_agent.py     # LangGraph node & edge logic
-│   ├── main.py            # FastAPI streaming server
-│   └── requirements.txt   # AI & Web dependencies
-└── frontend/
-    ├── src/
-    │   ├── App.tsx        # Dashboard with live-stream status logs
-    │   └── main.tsx
-    ├── package.json       # Build scripts and UI dependencies
-    └── vite.config.ts     # API Proxy configuration
+---
 
-## Tools & Technologies
+## Quick Start & Testing
+To see the agentic workflow immediately without creating your own data:
 
-rontend: React 19, Vite, React-Markdown (with GitHub Flavored Markdown), jsPDF for exports.
+Locate the sample data at: backend/data/sample_financials.csv.
 
-Backend: Python 3.x, FastAPI (StreamingResponse), LangGraph (Stateful Orchestration).
+Upload this file via the FinanceIntelligence dashboard.
 
-Agent Intelligence: OpenAI GPT-4o-mini (Reasoning), Tavily AI (Real-time Web Research).
+The agent will autonomously parse the headers, perform research, and generate a multi-page report.
 
-Data Processing: Pandas for CSV parsing and data transformation.
+---
+
+## System Architecture
+The project is decoupled into a stateful AI backend and a reactive modern dashboard to provide a seamless user experience during complex AI reasoning.
 
 
-## Steps
-State Configuration: Define AgentState to track tasks, analysis, competitor data, and revision counts.
 
-Node Development: Create modular functions for gathering financials, analyzing data, and researching competitors.
+* **Backend:** Python 3.x, **FastAPI**, and **LangGraph** for multi-agent orchestration.
+* **Frontend:** **React 19**, Vite, and **TypeScript** for a real-time status dashboard.
+* **AI Logic:** **OpenAI GPT-4o-mini** for reasoning and **Tavily AI** for real-time web research.
+* **Deployment:** Managed via **Render** with CI/CD integration from GitLab.
 
-Graph Compilation: Use StateGraph to build the execution flow, including conditional edges for the "Critique & Revise" loop.
+---
 
-Streaming API: Implement a FastAPI StreamingResponse to push JSON events to the frontend as each agent node completes.
+## Key Features
+* **Autonomous Pipeline:** Uses a `StateGraph` to manage the flow between gathering data, analyzing, and researching competitors.
+* **Real-time Event Streaming:** Implemented via FastAPI `StreamingResponse` using Server-Sent Events (SSE).
+* **Execution Pipeline Logs:** A live UI feed that maps the agent's internal reasoning process in real-time.
+* **Self-Correction Loop:** Includes a "Critique & Revise" edge where the agent identifies gaps in its own analysis and performs additional research.
+* **Export Capabilities:** Integrated Markdown-to-PDF generation for instant portability of findings.
 
-Reactive Dashboard: Build a React UI that listens to the server-sent events to update an "Execution Pipeline" in real-time.
+---
 
 ## Running the Project
 
@@ -62,9 +58,24 @@ cd frontend
 npm install
 npm run dev
 
-## Insights
-Self-Correction: The "Critique & Research" loop significantly improves report accuracy by identifying gaps in initial competitor data.
+---
+## Technical Insights
 
-User Feedback Loop: By streaming node updates, the user remains engaged during complex AI reasoning processes.
+Stream Resilience: Developed a custom client-side buffer in React to reassemble fragmented JSON chunks, resolving SyntaxError: Unterminated string issues during high-bandwidth streaming.
 
-Data Portability: Integrated Markdown-to-PDF generation allows analysts to move from raw data to a sharable document in seconds.
+Dynamic Routing: Implemented environment-aware API logic to seamlessly switch between local development and production Render environments.
+
+## Project Structure
+```plaintext
+AI-AGENT-FINANCE/
+├── backend/              # FastAPI & LangGraph Logic
+│   ├── data/             # Sample financial CSVs
+│   ├── graph_agent.py    # Node logic & StateGraph compilation
+│   ├── main.py           # Streaming server & API endpoints
+│   └── requirements.txt  # Python dependencies
+├── frontend/             # React/Vite Dashboard
+│   ├── src/App.tsx       # Live status dashboard & streaming logic
+│   ├── package.json      # UI dependencies
+│   └── vite.config.ts    # Build configuration
+└── README.md             # Root project documentation
+
