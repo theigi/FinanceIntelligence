@@ -1,81 +1,131 @@
-# FinanceIntelligence: Agentic Financial Analysis Ecosystem
+# FinanceIntelligence – Agentic AI Financial Analysis System
 
-**FinanceIntelligence** is a full-stack AI application that leverages **LangGraph** to coordinate multi-step, stateful financial research workflows. The system autonomously analyzes internal CSV data, performs real-time web research on competitors, and self-critiques its findings to produce investment-grade reports.
+🎯 **Purpose**  
+FinanceIntelligence is an AI-powered system that autonomously analyzes financial data and market competitors to generate investment-grade reports.
 
-### 🌐 [Live Dashboard](https://ai-agent-finance-frontend.onrender.com) | 
-🛠️ [API Documentation](https://ai-agent-finance-29gh.onrender.com/docs)
+🚀 **Why this project matters**
+- Demonstrates advanced agentic AI workflows
+- Showcases multi-step reasoning with self-correction
+- Combines AI, backend APIs, and modern frontend
+- Fully deployed with CI/CD on Render using GitLab
+
+🔗 **Live Demo**
+- 🌐 Frontend Dashboard: https://ai-agent-finance-frontend.onrender.com
+- 🛠️ API Documentation: https://ai-agent-finance-29gh.onrender.com/docs
+
+🧠 **Key Skills Demonstrated**
+- Agentic AI (LangGraph, multi-node state machines)
+- Backend APIs (FastAPI, SSE streaming)
+- Frontend (React, TypeScript, real-time UI)
+- LLM Integration (OpenAI, Tavily)
+- Deployment & CI/CD (GitLab + Render)
 
 ---
 
-## Quick Start & Testing
-To see the agentic workflow immediately without creating your own data:
-
-Locate the sample data at: backend/data/sample_financials.csv.
-
-Upload this file via the FinanceIntelligence dashboard.
-
-The agent will autonomously parse the headers, perform research, and generate a multi-page report.
+## Evaluation Notes 
+This project demonstrates:
+- Advanced agentic AI system design
+- Real-time streaming architectures
+- Autonomous reasoning with self-improvement
+- Production-ready deployment and CI/CD
 
 ---
 
-## System Architecture
-The project is decoupled into a stateful AI backend and a reactive modern dashboard to provide a seamless user experience during complex AI reasoning.
-
-
-
-* **Backend:** Python 3.x, **FastAPI**, and **LangGraph** for multi-agent orchestration.
-* **Frontend:** **React 19**, Vite, and **TypeScript** for a real-time status dashboard.
-* **AI Logic:** **OpenAI GPT-4o-mini** for reasoning and **Tavily AI** for real-time web research.
-* **Deployment:** Managed via **Render** with CI/CD integration from GitLab.
+## Project Overview
+FinanceIntelligence coordinates autonomous AI agents to:
+- Parse internal CSV financial data
+- Perform live web research on competitors
+- Critique and refine its own analysis
+- Produce structured, exportable financial reports
 
 ---
 
 ## Key Features
-* **Autonomous Pipeline:** Uses a `StateGraph` to manage the flow between gathering data, analyzing, and researching competitors.
-* **Real-time Event Streaming:** Implemented via FastAPI `StreamingResponse` using Server-Sent Events (SSE).
-* **Execution Pipeline Logs:** A live UI feed that maps the agent's internal reasoning process in real-time.
-* **Self-Correction Loop:** Includes a "Critique & Revise" edge where the agent identifies gaps in its own analysis and performs additional research.
-* **Export Capabilities:** Integrated Markdown-to-PDF generation for instant portability of findings.
+- **Autonomous Agent Pipeline** using LangGraph `StateGraph`
+- **Real-time Event Streaming** via FastAPI `StreamingResponse` (SSE)
+- **Self-Correction Loop** (Critique & Revise)
+- **Execution Logs UI** visualizing agent reasoning steps
+- **Markdown → PDF Export** for reports
 
 ---
 
-## Running the Project
+## Architecture Overview
+- **Frontend**: React 19 + TypeScript dashboard for live monitoring
+- **Backend**: FastAPI server orchestrating LangGraph agents
+- **AI Layer**: OpenAI GPT-4o-mini for reasoning, Tavily for web research
+- **Deployment**: Render with GitLab CI/CD
 
-# Backend
-Bash
+---
+
+## Quick Start (Demo without setup)
+1. Locate sample data: `backend/data/sample_financials.csv`
+2. Upload via the FinanceIntelligence dashboard
+3. Observe autonomous analysis and report generation
+
+---
+
+## Project Structure
+```text
+AI-AGENT-FINANCE/
+├── backend/
+│   ├── data/             # Sample financial CSVs
+│   ├── graph_agent.py    # LangGraph node logic & StateGraph
+│   ├── main.py           # Streaming API server
+│   └── requirements.txt
+├── frontend/
+│   ├── src/App.tsx       # Live dashboard & streaming client
+│   ├── package.json
+│   └── vite.config.ts
+└── README.md
+```
+
+---
+
+## Tech Stack
+
+**Frontend**
+- React 19
+- TypeScript
+- Vite
+
+**Backend**
+- Python 3.x
+- FastAPI
+- LangGraph
+
+**AI & Data**
+- OpenAI GPT-4o-mini
+- Tavily AI
+- Pandas
+
+**DevOps**
+- GitLab CI/CD
+- Render
+
+---
+
+## Running the Project Locally
+
+### Backend
+```bash
 cd backend
-# Setup environment
 python -m venv .venv
-source .venv/bin/activate 
-# Windows: .venv\Scripts\activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-# Start Agent Server
 python main.py
+```
 
-# Frontend
-Bash
+### Frontend
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
 ---
+
 ## Technical Insights
+- **Stream Resilience**: Custom client-side buffer reassembles fragmented JSON chunks to prevent SSE parsing errors.
+- **Dynamic Routing**: Environment-aware API switching between local and Render deployments.
 
-Stream Resilience: Developed a custom client-side buffer in React to reassemble fragmented JSON chunks, resolving SyntaxError: Unterminated string issues during high-bandwidth streaming.
-
-Dynamic Routing: Implemented environment-aware API logic to seamlessly switch between local development and production Render environments.
-
-## Project Structure
-```plaintext
-AI-AGENT-FINANCE/
-├── backend/              # FastAPI & LangGraph Logic
-│   ├── data/             # Sample financial CSVs
-│   ├── graph_agent.py    # Node logic & StateGraph compilation
-│   ├── main.py           # Streaming server & API endpoints
-│   └── requirements.txt  # Python dependencies
-├── frontend/             # React/Vite Dashboard
-│   ├── src/App.tsx       # Live status dashboard & streaming logic
-│   ├── package.json      # UI dependencies
-│   └── vite.config.ts    # Build configuration
-└── README.md             # Root project documentation
-
+---
