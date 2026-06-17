@@ -10,6 +10,7 @@ FinanceIntelligence is an AI-powered system that autonomously analyzes financial
 - Fully deployed with CI/CD on Render using GitLab
 
 🔗 **Live Demo**
+- 🎬 [Watch Demo](https://www.loom.com/share/c2b67be4c52240bea2da6441a17f8b38)
 - 🌐 Frontend Dashboard: https://ai-agent-finance-frontend.onrender.com
 - 🛠️ API Documentation: https://ai-agent-finance-29gh.onrender.com/docs
 
